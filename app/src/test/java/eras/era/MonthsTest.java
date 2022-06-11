@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import static eras.checker.Checker.*;
 
-public class YearlyCycleTest extends Ted {
+public class MonthsTest extends Ted {
     Month jan = new Month("January", "Jan", 31);
     Month feb = new Month("February", "Feb", 28);
     Month mar = new Month("March", "Mar", 31);
@@ -21,19 +21,19 @@ public class YearlyCycleTest extends Ted {
     Month oct = new Month("October", "Oct", 31);
     Month nov = new Month("November", "Nov", 30);
     Month dec = new Month("December", "Dec", 31);
-    YearlyCycle cycle = new YearlyCycle(List.of(
+    Months cycle = new Months(List.of(
         jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
     ));
 
     @Test public void testGet_integer() {
         title("testGet_integer");
 
-        require(cycle.get(0).name(), eq("January"));
-        require(cycle.get(1).name(), eq("February"));
-        require(cycle.get(11).name(), eq("December"));
-        require(cycle.get(12).name(), eq("January"));
-        require(cycle.get(-1).name(), eq("December"));
-        require(cycle.get(-12).name(), eq("January"));
+        require(cycle.get(1).name(), eq("January"));
+        require(cycle.get(2).name(), eq("February"));
+        require(cycle.get(12).name(), eq("December"));
+        require(cycle.get(13).name(), eq("January"));
+        require(cycle.get(0).name(), eq("December"));
+        require(cycle.get(-11).name(), eq("January"));
     }
 
     @Test public void testGet_name() {
@@ -54,7 +54,7 @@ public class YearlyCycleTest extends Ted {
     @Test public void testIndexOf_month() {
         title("testIndexOf_month");
 
-        for (int i = 0; i < cycle.monthsPerYear(); i++) {
+        for (int i = 1; i <= cycle.monthsPerYear(); i++) {
             require(cycle.indexOf(cycle.get(i)), eq(i));
         }
     }
@@ -62,7 +62,7 @@ public class YearlyCycleTest extends Ted {
     @Test public void testIndexOf_name() {
         title("testIndexOf_name");
 
-        for (int i = 0; i < cycle.monthsPerYear(); i++) {
+        for (int i = 1; i <= cycle.monthsPerYear(); i++) {
             require(cycle.indexOf(cycle.get(i).name()).orElse(null), eq(i));
         }
 

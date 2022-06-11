@@ -9,7 +9,17 @@ import java.util.Optional;
 /**
  * A weekly cycle is the definition of the days in a week.
  */
-public record WeeklyCycle(List<WeekDay> weekDays) {
+public record WeekDays(List<WeekDay> weekDays) {
+    public static WeekDays ENGLISH = new WeekDays(List.of(
+        new WeekDay("Sunday", "Sun"),
+        new WeekDay("Monday", "Mon"),
+        new WeekDay("Tuesday", "Tue"),
+        new WeekDay("Wednesday", "Wed"),
+        new WeekDay("Thursday", "Thu"),
+        new WeekDay("Friday", "Fri"),
+        new WeekDay("Saturday", "Sat")
+    ));
+
     //-------------------------------------------------------------------------
     // Accessors
 
@@ -24,11 +34,11 @@ public record WeeklyCycle(List<WeekDay> weekDays) {
     /**
      * Returns the week day given an integer index, modulo the number of days
      * of the week.
-     * @param index An index
+     * @param index An index, 1 to days per week.
      * @return The week day
      */
     public WeekDay get(int index) {
-        return weekDays.get(Functions.mod(index, weekDays.size()));
+        return weekDays.get(Functions.mod(index - 1, weekDays.size()));
     }
 
     /**
@@ -45,7 +55,7 @@ public record WeeklyCycle(List<WeekDay> weekDays) {
     }
 
     /**
-     * Returns the index, 0 to size-1, of the weekday within the cycle.
+     * Returns the index, 1 to daysPerWeek, of the weekday within the cycle.
      * @param day The day
      * @return the index
      */
@@ -53,11 +63,11 @@ public record WeeklyCycle(List<WeekDay> weekDays) {
         var index = weekDays.indexOf(day);
         Assert.arg(index != -1, "Unknown WeekDay: " + day);
 
-        return index;
+        return index + 1;
     }
 
     /**
-     * Returns the index, 0 to size-1, of the weekday within the cycle.
+     * Returns the index, 1 to daysPerWeek, of the weekday within the cycle.
      * @param name The name or abbreviation of the day
      * @return the index
      */

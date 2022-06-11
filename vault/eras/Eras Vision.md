@@ -3,11 +3,11 @@
 
 ## Vision
 
-Eras is a calendar processor for fiction others.  The user can define a base era for their world plus any number of subordinate eras of varying complexity.
+Eras is a calendar processor for authors others.  The user can define a standard era for their world plus any number of subordinate eras of varying complexity.
 
 The intent is to support:
 
-- A base era, which is the "official" reckoning of years and dates.
+- A standard era, which is the "official" reckoning of years and dates.
 - Eras of various kinds that are tied to the base era
     - Julian vs. Gregorian
     - Regnal eras
@@ -17,9 +17,9 @@ The intent is to support:
 - Timelines with point events, dependent events, spans, etc., as in Aeon, which can be displayed using any desired era.
 
 
-## The Base Era
+## The Standard Era
 
-The base era includes:
+The standard era includes:
 
 - A name, e.g., AD
 - A division of the year into months with numbered days.

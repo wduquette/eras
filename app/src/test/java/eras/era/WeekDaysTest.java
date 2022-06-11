@@ -7,7 +7,7 @@ import eras.Ted;
 import org.junit.Test;
 import static eras.checker.Checker.*;
 
-public class WeeklyCycleTest extends Ted {
+public class WeekDaysTest extends Ted {
     WeekDay sun = new WeekDay("Sunday", "Sun");
     WeekDay mon = new WeekDay("Monday", "Mon");
     WeekDay tue = new WeekDay("Tuesday", "Tue");
@@ -15,7 +15,7 @@ public class WeeklyCycleTest extends Ted {
     WeekDay thu = new WeekDay("Thursday", "Thu");
     WeekDay fri = new WeekDay("Friday", "Fri");
     WeekDay sat = new WeekDay("Saturday", "Sat");
-    WeeklyCycle cycle = new WeeklyCycle(List.of(
+    WeekDays cycle = new WeekDays(List.of(
         sun, mon, tue, wed, thu, fri, sat
     ));
 
@@ -28,12 +28,13 @@ public class WeeklyCycleTest extends Ted {
     @Test public void testGet_integer() {
         title("testGet_integer");
 
-        require(cycle.get(0), eq(sun));
-        require(cycle.get(1), eq(mon));
-        require(cycle.get(6), eq(sat));
-        require(cycle.get(7), eq(sun));
-        require(cycle.get(-1), eq(sat));
-        require(cycle.get(-7), eq(sun));
+        require(cycle.get(1), eq(sun));
+        require(cycle.get(2), eq(mon));
+        require(cycle.get(7), eq(sat));
+        require(cycle.get(8), eq(sun));
+        require(cycle.get(0), eq(sat));
+        require(cycle.get(-1), eq(fri));
+        require(cycle.get(-6), eq(sun));
     }
 
     @Test public void testGet_name() {
@@ -54,7 +55,7 @@ public class WeeklyCycleTest extends Ted {
     @Test public void testIndexOf_day() {
         title("testIndexOf_day");
 
-        for (int i = 0; i < cycle.daysPerWeek(); i++) {
+        for (int i = 1; i <= cycle.daysPerWeek(); i++) {
             require(cycle.indexOf(cycle.get(i)), eq(i));
         }
     }
@@ -62,7 +63,7 @@ public class WeeklyCycleTest extends Ted {
     @Test public void testIndexOf_name() {
         title("testIndexOf_name");
 
-        for (int i = 0; i < cycle.daysPerWeek(); i++) {
+        for (int i = 1; i <= cycle.daysPerWeek(); i++) {
             require(cycle.indexOf(cycle.get(i).name()).orElse(null), eq(i));
         }
 

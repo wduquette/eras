@@ -9,7 +9,22 @@ import java.util.Optional;
 /**
  * A yearly cycle is the definition of the months in the year.
  */
-public record YearlyCycle(List<Month> months) {
+public record Months(List<Month> months) {
+    public static final Months ENGLISH = new Months(List.of(
+        new Month("January", "Jan", 31),
+        new Month("February", "Feb", 28),
+        new Month("March", "Mar", 31),
+        new Month("April", "Apr", 30),
+        new Month("May", "May", 31),
+        new Month("June", "Jun", 30),
+        new Month("July", "Jul", 31),
+        new Month("August", "Aug", 31),
+        new Month("September", "Sep", 30),
+        new Month("October", "Oct", 31),
+        new Month("November", "Nov", 30),
+        new Month("December", "Dec", 31)
+    ));
+
     //-------------------------------------------------------------------------
     // Accessors
 
@@ -30,13 +45,13 @@ public record YearlyCycle(List<Month> months) {
     }
 
     /**
-     * Returns the month given an integer month, modulo the number of months
-     * in the year.
+     * Returns the month given an integer month 1 to monthsPerYear, modulo the
+     * number of months in the year.
      * @param index An index
-     * @return The week day
+     * @return The month
      */
     public Month get(int index) {
-        return months.get(Functions.mod(index, months.size()));
+        return months.get(Functions.mod(index - 1, months.size()));
     }
 
     /**
@@ -53,7 +68,7 @@ public record YearlyCycle(List<Month> months) {
     }
 
     /**
-     * Returns the index, 0 to lengthInMonths-1, of the month within the cycle.
+     * Returns the index, 1 to monthsPerYear, of the month within the cycle.
      * @param month The day
      * @return the index
      */
@@ -61,12 +76,12 @@ public record YearlyCycle(List<Month> months) {
         var index = months.indexOf(month);
         Assert.arg(index != -1, "Unknown Month: " + month);
 
-        return index;
+        return index + 1;
     }
 
     /**
-     * Returns the index, 0 to lengthInMonths-1, of the month within the cycle.
-     * @param name The name or abbreviation of the day
+     * Returns the index, 1 to monthsPerYear, of the month within the cycle.
+     * @param name The name or abbreviation of the month
      * @return the index
      */
     public Optional<Integer> indexOf(String name) {

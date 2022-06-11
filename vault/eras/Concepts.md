@@ -7,7 +7,7 @@
     - The number of months in a year, their names, and their length in days
 - [[Era]]
     - A tuple {yearly cycle, weekly cycle, reference date}
-- [[Base Era]]
+- [[Standard Era]]
     - The fundamental era for a given fictional world: the "official era" from the author's point of view.
 - [[Subordinate Era]]
     - Some other calendar within the fictional world
