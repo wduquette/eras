@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Eras Vision.md",
+            "file": "Orrery.md",
             "mode": "source"
           }
         }
@@ -76,7 +76,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Eras Vision.md",
+                "file": "Orrery.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +93,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Eras Vision.md",
+                "file": "Orrery.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -116,7 +116,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Eras Vision.md"
+                "file": "Orrery.md"
               }
             }
           }
@@ -129,6 +129,7 @@
   },
   "active": "9f5cbd1ce2845172",
   "lastOpenFiles": [
+    "Orrery.md",
     "Eras Vision.md",
     "Standard Era.md",
     "Concepts.md",
