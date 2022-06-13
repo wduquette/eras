@@ -1,7 +1,5 @@
 package eras.util;
 
-import eras.checker.Checker;
-
 import java.util.List;
 import java.util.function.Function;
 
@@ -22,19 +20,36 @@ public class Functions {
         }
     }
 
-    public static <T,U> List<U> map(List<T> list, Function<T,U> func) {
+    /**
+     * Given a list {a1, a2, ...} and a function f, return the list
+     * {f(a1), f(a2), ...}.
+     * @param list The list
+     * @param func the function
+     * @param <Domain> The element type for the input list
+     * @param <Range> The element type for the output list.
+     * @return
+     */
+    public static <Domain, Range> List<Range> map(
+        List<Domain> list,
+        Function<Domain, Range> func)
+    {
         return list.stream().map(func).toList();
     }
 
+    /**
+     * Given a method name and the method's arguments, returns a string that
+     * describes the call: "name(arg, arg, ...)".  The arguments are stringified
+     * by the {@code stringify} method.
+     * @param name The name
+     * @param args The arguments
+     * @return The string.
+     */
     public static String signature(String name, Object... args) {
         return name
             + "("
             + String.join(", ", map(List.of(args), Functions::stringify))
             + ")";
     }
-
-    // Returns (a mod b), always returning a non-negative number.
-    // Works around Java's default behavior.
 
     /**
      * Given two integers a and b, returns (a mod b) such that the result is
