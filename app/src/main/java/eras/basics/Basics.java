@@ -6,9 +6,9 @@ public class Basics {
     public static int lengthOfYearElementInDays(YearElement element, int year) {
         return switch (element) {
             case YearElement.Month m ->
-                m.daysInMonth();
-            case YearElement.MonthWithLeapDay m ->
-                m.daysInMonth() + m.rule().leapDays(year);
+                m.days() + m.leapDays().forYear(year);
+            case YearElement.Epagomenal m ->
+                m.days() + m.leapDays().forYear(year);
         };
     }
 
