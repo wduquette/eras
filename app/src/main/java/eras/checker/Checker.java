@@ -153,6 +153,31 @@ public class Checker {
         return define(v -> !Objects.equals(v, value), "ne", value);
     }
 
+    /**
+     * This condition checks that the value's toString() has the given value.
+     * @param value The expected value
+     * @param <V> The value type
+     * @return The condition
+     */
+    public static <V> Condition<V> hasString(String value) {
+        return define(v -> Objects.equals(Objects.toString(v), value),
+        "hasString", value);
+    }
+
+    /**
+     * This condition checks that the value's formatted has the given value.
+     * @param fmt The format string
+     * @param value The expected value
+     * @param <V> The value type
+     * @return The condition
+     */
+    public static <V> Condition<V> hasString(String fmt, String value) {
+        return define(v -> {
+            String formatted = String.format(fmt, v);
+            return Objects.equals(formatted, value);
+        }, "hasString", fmt, value);
+    }
+
     //-------------------------------------------------------------------------
     // Boolean Conditions
 

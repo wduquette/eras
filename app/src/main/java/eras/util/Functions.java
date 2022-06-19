@@ -61,4 +61,17 @@ public class Functions {
     public static int mod(int a, int b) {
         return (a % b + b) % b;
     }
+
+    /**
+     * Returns the remainder of the division a/b as a number in the range
+     * [0.0, b)
+     * @param a The numerator
+     * @param b The denominator
+     * @return The remainder
+     */
+    public static double fmod(double a, double b) {
+        double dividend = a/b;
+        double fraction = dividend - Math.floor(dividend);
+        return fraction * b;
+    }
 }

@@ -1,7 +1,7 @@
 # Orrery
 #term 
 
-In this system, an `Orrery` is a model of one or related cycles, e.g.,
+In this system, an `Orrery` is a model of one or related [[Cycle|cycles]], e.g.,
 
 - The daily cycle
     - This is the basic unit; one cycle has the value 1.0

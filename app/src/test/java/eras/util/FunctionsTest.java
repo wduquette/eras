@@ -40,4 +40,15 @@ public class FunctionsTest extends Ted {
         require(mod(-1,5), eq(4));
     }
 
+    @Test public void testFmod() {
+        title("testFmod");
+        require (fmod(0.0, 5.0), hasString("%.1f", "0.0"));
+        require (fmod(3.0, 5.0), hasString("%.1f", "3.0"));
+        require (fmod(8.0, 5.0), hasString("%.1f", "3.0"));
+        require (fmod(-1.0, 5.0), hasString("%.1f", "4.0"));
+        require (fmod(-2.0, 5.0), hasString("%.1f", "3.0"));
+        require (fmod(-5.0, 5.0), hasString("%.1f", "0.0"));
+    }
+
+
 }
