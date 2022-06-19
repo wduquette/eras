@@ -5,20 +5,19 @@ import org.junit.Test;
 
 import static eras.checker.Checker.*;
 
-public class IntegerCycleTest extends Ted {
-    // Day 0 is a Tuesday
-    IntegerCycle cycle = new IntegerCycle(7, 2, 0);
+public class RealCycleTest extends Ted {
+    RealCycle cycle = new RealCycle(28.25, 7.2, 0);
 
     @Test public void testBasics() {
         title("testBasics");
 
-        require(cycle.length(), eq(7));
-        require(cycle.startDay(), eq(2));
+        require(cycle.length(), eq(28.25));
+        require(cycle.startDay(), eq(7.2));
         require(cycle.day(), eq(0));
     }
 
-    @Test public void testToDay() {
-        title("testToDay");
+    @Test public void testSetDay() {
+        title("testSetDay");
 
         Cycle cycle2 = cycle.setDay(3);
         require(cycle2.day(), eq(3));
@@ -29,41 +28,29 @@ public class IntegerCycleTest extends Ted {
         Cycle that = cycle;
 
         require(that.currentCycle(), eq(0));
-        that = that.setDay(6);
-        require(that.currentCycle(), eq(0));
-        that = that.setDay(7);
+        that = that.setDay(29);
         require(that.currentCycle(), eq(1));
-        that = that.setDay(13);
-        require(that.currentCycle(), eq(1));
-        that = that.setDay(14);
-        require(that.currentCycle(), eq(2));
-
         that = that.setDay(-1);
         require(that.currentCycle(), eq(-1));
-        that = that.setDay(-7);
-        require(that.currentCycle(), eq(-1));
-        that = that.setDay(-8);
+        that = that.setDay(-30);
         require(that.currentCycle(), eq(-2));
     }
 
-    @Test public void testCurrentDay() {
-        title("testCurrentDay");
+    @Test public void testRealDay() {
+        title("testRealDay");
         Cycle that = cycle;
 
-        require(that.currentDay(), eq(2));
-        that = that.setDay(2);
-        require(that.currentDay(), eq(4));
-        that = that.setDay(4);
-        require(that.currentDay(), eq(6));
-        that = that.setDay(5);
-        require(that.currentDay(), eq(0));
+        for (int i = 0; i < 100; i++) {
+            that = that.setDay(i);
+            System.out.printf("%02d: %02d %4.2f\n",
+                that.day(), that.currentDay(), that.realDay());
+        }
 
-        that = that.setDay(-1);
-        require(that.currentDay(), eq(1));
-        that = that.setDay(-2);
-        require(that.currentDay(), eq(0));
-        that = that.setDay(-3);
-        require(that.currentDay(), eq(6));
+        require(that.realDay(), hasString("%.2f", "7.20"));
+        that = that.setDay(10);
+        require(that.realDay(), hasString("%.2f", "17.20"));
+        that = that.setDay(22);
+        require(that.realDay(), hasString("%.2f", "0.95"));
     }
 
     @Test public void testCurrentFraction() {
@@ -86,14 +73,14 @@ public class IntegerCycleTest extends Ted {
         require(that.currentFraction(), hasString("%.2f", "0.86"));
     }
 
-    @Test public void testRealDay() {
-        title("testRealDay");
-        Cycle that = cycle;
-
-        for (int i = -14; i <= 14; i++) {
-            that = that.setDay(i);
-            require(that.realDay(), eq((double)that.currentDay()));
-        }
+    @Test public void testCurrentDay() {
+        title("testCurrentDay");
+//        Cycle that = cycle;
+//
+//        for (int i = -14; i <= 14; i++) {
+//            that = that.setDay(i);
+//            require(that.realDay(), eq((double)that.currentDay()));
+//        }
     }
 
     @Test public void testToString() {

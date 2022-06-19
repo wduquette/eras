@@ -16,12 +16,12 @@ public record RealCycle(double length, double startDay, int day)
 {
     @Override
     public int currentCycle() {
-        return (int)Math.floor((day + startDay) / length);
+        return CycleFunctions.currentCycle(day, length);
     }
 
     @Override
     public double realDay() {
-        return Functions.fmod((day + startDay), length);
+        return CycleFunctions.realDay(day, length, startDay);
     }
 
     @Override

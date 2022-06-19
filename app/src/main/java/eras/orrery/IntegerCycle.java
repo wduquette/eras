@@ -14,15 +14,11 @@ public record IntegerCycle(int length, int startDay, int day)
     implements Cycle
 {
     public int currentCycle() {
-        if (day >= 0) {
-            return day / length;
-        } else {
-            return -1 + ((day + 1) / length);
-        }
+        return CycleFunctions.currentCycle(day, length);
     }
 
     public int currentDay() {
-        return Functions.mod((day + startDay), length);
+        return CycleFunctions.currentDay(day, length, startDay);
     }
 
     public double realDay() {

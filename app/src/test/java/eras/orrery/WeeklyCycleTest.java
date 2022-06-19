@@ -3,11 +3,14 @@ package eras.orrery;
 import eras.Ted;
 import org.junit.Test;
 
+import java.util.List;
+
 import static eras.checker.Checker.*;
 
-public class IntegerCycleTest extends Ted {
+public class WeeklyCycleTest extends Ted {
     // Day 0 is a Tuesday
-    IntegerCycle cycle = new IntegerCycle(7, 2, 0);
+    List<String> dayNames = List.of("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+    WeeklyCycle cycle = new WeeklyCycle(dayNames, 2, 0);
 
     @Test public void testBasics() {
         title("testBasics");
@@ -102,7 +105,7 @@ public class IntegerCycleTest extends Ted {
 
         for (int i = -14; i <= 14; i++) {
             that = that.setDay(i);
-            require(that.toString(), eq(Integer.toString(that.currentDay())));
+            require(that.toString(), eq(dayNames.get(that.currentDay())));
         }
     }
 }
