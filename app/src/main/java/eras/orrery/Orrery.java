@@ -43,9 +43,10 @@ public class Orrery {
      * @param name The name
      * @return The cycle, or null if not found
      */
-    public Cycle getCycle(String name) {
+    public <V extends CycleValue> Cycle<V> getCycle(String name) {
         return cycles.get(name);
     }
+
 
     //-------------------------------------------------------------------------
     // Builder

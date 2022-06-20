@@ -23,55 +23,57 @@ public class WeeklyCycleTest extends Ted {
     @Test public void testCycleCount() {
         title("testCycleCount");
 
-        require(cycle.cycleCount(0), eq(0));
-        require(cycle.cycleCount(6), eq(0));
-        require(cycle.cycleCount(7), eq(1));
-        require(cycle.cycleCount(13), eq(1));
-        require(cycle.cycleCount(14), eq(2));
+        require(cycle.get(0).cycleCount(), eq(0));
+        require(cycle.get(6).cycleCount(), eq(0));
+        require(cycle.get(7).cycleCount(), eq(1));
+        require(cycle.get(13).cycleCount(), eq(1));
+        require(cycle.get(14).cycleCount(), eq(2));
 
-        require(cycle.cycleCount(-1), eq(-1));
-        require(cycle.cycleCount(-7), eq(-1));
-        require(cycle.cycleCount(-8), eq(-2));
+        require(cycle.get(-1).cycleCount(), eq(-1));
+        require(cycle.get(-7).cycleCount(), eq(-1));
+        require(cycle.get(-8).cycleCount(), eq(-2));
     }
 
-    @Test public void testCurrentDay() {
-        title("testCurrentDay");
+    @Test public void testDayOfCycle() {
+        title("testDayOfCycle");
 
-        require(cycle.dayOfCycle(0), eq(2));
-        require(cycle.dayOfCycle(2), eq(4));
-        require(cycle.dayOfCycle(4), eq(6));
-        require(cycle.dayOfCycle(5), eq(0));
+        require(cycle.get(0).dayOfCycle(), eq(2));
+        require(cycle.get(2).dayOfCycle(), eq(4));
+        require(cycle.get(4).dayOfCycle(), eq(6));
+        require(cycle.get(5).dayOfCycle(), eq(0));
 
-        require(cycle.dayOfCycle(-1), eq(1));
-        require(cycle.dayOfCycle(-2), eq(0));
-        require(cycle.dayOfCycle(-3), eq(6));
+        require(cycle.get(-1).dayOfCycle(), eq(1));
+        require(cycle.get(-2).dayOfCycle(), eq(0));
+        require(cycle.get(-3).dayOfCycle(), eq(6));
     }
 
-    @Test public void testCurrentFraction() {
-        title("testCurrentDay");
+    @Test public void testFraction() {
+        title("testFraction");
 
-        require(cycle.fraction(0), hasString("%.2f", "0.29"));
-        require(cycle.fraction(2), hasString("%.2f", "0.57"));
-        require(cycle.fraction(4), hasString("%.2f", "0.86"));
-        require(cycle.fraction(5), hasString("%.2f", "0.00"));
+        require(cycle.get(0).fraction(), hasString("%.2f", "0.29"));
+        require(cycle.get(2).fraction(), hasString("%.2f", "0.57"));
+        require(cycle.get(4).fraction(), hasString("%.2f", "0.86"));
+        require(cycle.get(5).fraction(), hasString("%.2f", "0.00"));
 
-        require(cycle.fraction(-1), hasString("%.2f", "0.14"));
-        require(cycle.fraction(-2), hasString("%.2f", "0.00"));
-        require(cycle.fraction(-3), hasString("%.2f", "0.86"));
+        require(cycle.get(-1).fraction(), hasString("%.2f", "0.14"));
+        require(cycle.get(-2).fraction(), hasString("%.2f", "0.00"));
+        require(cycle.get(-3).fraction(), hasString("%.2f", "0.86"));
     }
 
     @Test public void testRealValue() {
         title("testRealValue");
 
         for (int i = -14; i <= 14; i++) {
-            require(cycle.realValue(i), eq((double)cycle.dayOfCycle(i)));
+            CycleValue cv = cycle.get(i);
+            require(cv.realValue(), eq((double)cv.dayOfCycle()));
         }
     }
 
     @Test public void testToString() {
         title("testToString");
         for (int i = -14; i <= 14; i++) {
-            require(cycle.toString(i), eq(dayNames.get(cycle.dayOfCycle(i))));
+            CycleValue cv = cycle.get(i);
+            require(cv.toString(), eq(dayNames.get(cv.dayOfCycle())));
         }
     }
 }
