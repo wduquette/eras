@@ -7,38 +7,30 @@ package eras.orrery;
  *
  * @param length   The length of the cycle in days
  * @param startValue The cycle's value on day()=0
- * @param day      The current day
  */
-public record RealCycle(double length, double startValue, int day)
-    implements Cycle
-{
+public record RealCycle(double length, double startValue) implements Cycle {
     @Override
-    public Cycle setDay(int newDay) {
-        return new RealCycle(length, startValue, newDay);
-    }
-
-    @Override
-    public int cycleCount() {
+    public int cycleCount(int day) {
         return CycleFunctions.cycleCount(day, length);
     }
 
     @Override
-    public double realValue() {
+    public double realValue(int day) {
         return CycleFunctions.realValue(day, length, startValue);
     }
 
     @Override
-    public int dayOfCycle() {
-        return (int)Math.floor(realValue());
+    public int dayOfCycle(int day) {
+        return (int)Math.floor(realValue(day));
     }
 
     @Override
-    public double fraction() {
-        return realValue()/length();
+    public double fraction(int day) {
+        return realValue(day)/length();
     }
 
     @Override
-    public String toString() {
-        return String.format("%.2f", realValue());
+    public String toString(int day) {
+        return String.format("%.2f", realValue(day));
     }
 }

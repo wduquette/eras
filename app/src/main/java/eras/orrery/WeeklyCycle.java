@@ -4,41 +4,35 @@ import java.util.List;
 
 /**
  * A cycle that models days of the week.  The starting
- * day determines the currentCycle and currentDay as of day=0.
+ * day determines the cycleCount and dayOfCycle as of day=0.
  *
  * @param dayNames The names of the days in the week
  * @param startDay The starting day
- * @param day      The current day
  */
-public record WeeklyCycle(List<String> dayNames, int startDay, int day)
+public record WeeklyCycle(List<String> dayNames, int startDay)
     implements Cycle
 {
     //-------------------------------------------------------------------------
     // Cycle API
 
     @Override
-    public Cycle setDay(int newDay) {
-        return new WeeklyCycle(dayNames, startDay, newDay);
-    }
-
-    @Override
-    public int cycleCount() {
+    public int cycleCount(int day) {
         return CycleFunctions.cycleCount(day, length());
     }
 
     @Override
-    public int dayOfCycle() {
+    public int dayOfCycle(int day) {
         return CycleFunctions.dayOfCycle(day, length(), startDay);
     }
 
     @Override
-    public double realValue() {
-        return dayOfCycle();
+    public double realValue(int day) {
+        return dayOfCycle(day);
     }
 
     @Override
-    public double fraction() {
-        return realValue()/length();
+    public double fraction(int day) {
+        return realValue(day)/length();
     }
 
     //-------------------------------------------------------------------------
@@ -54,26 +48,29 @@ public record WeeklyCycle(List<String> dayNames, int startDay, int day)
 
     /**
      * Gets the weekday name for the dayOfCycle().
+     * @param day Days since the epoch
      * @return The name
      */
-    public String dayName() {
-        return dayNames.get(dayOfCycle());
+    public String dayName(int day) {
+        return dayNames.get(dayOfCycle(day));
     }
 
     /**
      * Gets the day-of-week as an integer 1 to the number of days in the week.
+     * @param day Days since the epoch
      * @return The number
      */
-    public int dayOfWeek() {
-        return dayOfCycle() + 1;
+    public int dayOfWeek(int day) {
+        return dayOfCycle(day) + 1;
     }
 
     /**
      * Returns the dayName() string.
+     * @param day Days since the epoch
      * @return The day name string.
      */
     @Override
-    public String toString() {
-        return dayName();
+    public String toString(int day) {
+        return dayName(day);
     }
 }

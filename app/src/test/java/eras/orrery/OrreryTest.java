@@ -12,8 +12,8 @@ public class OrreryTest extends Ted {
 
     // Day 0 is a Tuesday
     List<String> dayNames = List.of("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-    WeeklyCycle weekly = new WeeklyCycle(dayNames, 2, 0);
-    LunarCycle lunar = new LunarCycle(27.322, 7.2, 0);
+    WeeklyCycle weekly = new WeeklyCycle(dayNames, 2);
+    LunarCycle lunar = new LunarCycle(27.322, 7.2);
     Orrery orrery = new Orrery.Builder()
         .add("Lunar", lunar)
         .add("Week", weekly)
@@ -24,12 +24,12 @@ public class OrreryTest extends Ted {
 
         println("Day      Moon");
         println("-------- --------------------");
+        WeeklyCycle week = (WeeklyCycle)orrery.getCycle("Week");
+        LunarCycle lunar = (LunarCycle)orrery.getCycle("Lunar");
         for (int day = 0; day <= 60; day++) {
-            orrery.setDay(day);
-            WeeklyCycle week = (WeeklyCycle)orrery.getCycle("Week");
-            LunarCycle lunar = (LunarCycle)orrery.getCycle("Lunar");
             printf("[%2d] %s %-8s %-6s %.2f\n",
-                day, week.dayName(), lunar.shape(), lunar.phase(), lunar.fraction());
+                day, week.dayName(day), lunar.shape(day), lunar.phase(day),
+                lunar.fraction(day));
         }
 
     }

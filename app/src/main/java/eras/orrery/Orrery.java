@@ -47,16 +47,6 @@ public class Orrery {
         return cycles.get(name);
     }
 
-    /**
-     * Sets the desired day.
-     * @param newDay The new day
-     */
-    public void setDay(int newDay) {
-        for (Map.Entry<String,Cycle> e : cycles.entrySet()) {
-            cycles.put(e.getKey(), e.getValue().setDay(newDay));
-        }
-    }
-
     //-------------------------------------------------------------------------
     // Builder
 
@@ -72,6 +62,4 @@ public class Orrery {
             return new Orrery(this);
         }
     }
-
-
 }

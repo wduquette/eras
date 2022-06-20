@@ -62,12 +62,11 @@ class CycleFunctions {
      */
     public static void dumpIntegerCycle(Cycle cycle, int start, int end) {
         for (int i = -28; i <= 28; i++) {
-            Cycle that = cycle.setDay(i);
             System.out.printf("%03d: %d %02d %4.2f\n",
-                that.day(),
-                that.dayOfCycle(),
-                that.cycleCount(),
-                that.fraction());
+                i,
+                cycle.dayOfCycle(i),
+                cycle.cycleCount(i),
+                cycle.fraction(i));
         }
     }
 
@@ -80,13 +79,12 @@ class CycleFunctions {
      */
     public static void dumpRealCycle(Cycle cycle, int start, int end) {
         for (int i = start; i <= end; i++) {
-            Cycle that = cycle.setDay(i);
             System.out.printf("%03d: %6.2f %4.2f %02d %02d\n",
-                that.day(),
-                that.realValue(),
-                that.fraction(),
-                that.cycleCount(),
-                that.dayOfCycle());
+                i,
+                cycle.realValue(i),
+                cycle.fraction(i),
+                cycle.cycleCount(i),
+                cycle.dayOfCycle(i));
         }
     }
 }

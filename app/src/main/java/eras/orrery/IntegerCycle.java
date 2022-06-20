@@ -6,38 +6,30 @@ package eras.orrery;
  *
  * @param length   The length of the cycle in days
  * @param startDay The starting day
- * @param day      The current day
  */
-public record IntegerCycle(int length, int startDay, int day)
-    implements Cycle
-{
+public record IntegerCycle(int length, int startDay) implements Cycle {
     @Override
-    public Cycle setDay(int newDay) {
-        return new IntegerCycle(length, startDay, newDay);
-    }
-
-    @Override
-    public int cycleCount() {
+    public int cycleCount(int day) {
         return CycleFunctions.cycleCount(day, length);
     }
 
     @Override
-    public int dayOfCycle() {
+    public int dayOfCycle(int day) {
         return CycleFunctions.dayOfCycle(day, length, startDay);
     }
 
     @Override
-    public double realValue() {
-        return dayOfCycle();
+    public double realValue(int day) {
+        return dayOfCycle(day);
     }
 
     @Override
-    public double fraction() {
-        return realValue()/length;
+    public double fraction(int day) {
+        return realValue(day)/length;
     }
 
     @Override
-    public String toString() {
-        return Integer.toString(dayOfCycle());
+    public String toString(int day) {
+        return Integer.toString(dayOfCycle(day));
     }
 }
