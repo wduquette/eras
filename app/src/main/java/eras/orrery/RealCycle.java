@@ -1,7 +1,5 @@
 package eras.orrery;
 
-import eras.util.Functions;
-
 /**
  * A cycle that models natural cycles: the solar year, the lunar month.  The
  * length will seldom be an integer number of days, and the startDay will
@@ -15,32 +13,32 @@ public record RealCycle(double length, double startDay, int day)
     implements Cycle
 {
     @Override
-    public int currentCycle() {
-        return CycleFunctions.currentCycle(day, length);
-    }
-
-    @Override
-    public double realDay() {
-        return CycleFunctions.realDay(day, length, startDay);
-    }
-
-    @Override
-    public int currentDay() {
-        return (int)realDay();
-    }
-
-    @Override
-    public double currentFraction() {
-        return realDay()/length();
-    }
-
-    @Override
     public Cycle setDay(int newDay) {
         return new RealCycle(length, startDay, newDay);
     }
 
     @Override
+    public int cycleCount() {
+        return CycleFunctions.cycleCount(day, length);
+    }
+
+    @Override
+    public double realValue() {
+        return CycleFunctions.realValue(day, length, startDay);
+    }
+
+    @Override
+    public int dayOfCycle() {
+        return (int)Math.floor(realValue());
+    }
+
+    @Override
+    public double fraction() {
+        return realValue()/length();
+    }
+
+    @Override
     public String toString() {
-        return String.format("%.2f", realDay());
+        return String.format("%.2f", realValue());
     }
 }

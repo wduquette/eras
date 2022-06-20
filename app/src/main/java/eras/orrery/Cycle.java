@@ -16,7 +16,10 @@ public interface Cycle {
     //-------------------------------------------------------------------------
     // Cycle Queries and Operations
 
-    /** The number of days since the epoch. */
+    /**
+     * The number of days since the epoch.  May be positive or negative.
+     * @return The number of days
+     */
     int day();
 
     /**
@@ -26,15 +29,31 @@ public interface Cycle {
      */
     Cycle setDay(int newDay);
 
-    /** The current cycle number */
-    int currentCycle();
+    /**
+     * For the current day(), the number of cycles completed since the epoch.
+     * @return The number
+     */
+    int cycleCount();
 
-    /** The current day within the cycle. */
-    int currentDay();
+    /**
+     * The current day in the cycle.  For integer cycles, this will be in
+     * the range [0,length-1]; for real cycles with non-integer length it
+     * will be less meaningful.
+     * @return the day.
+     */
+    int dayOfCycle();
 
-    /** The current day including any fractional part. */
-    double realDay();
+    /**
+     * The real value of the cycle given the day().  For integer cycles
+     * this will be the same as the dayInCycle(); for natural cycles of
+     * non-integer length it will be something else.
+      * @return the real value.
+     */
+    double realValue();
 
-    /** The current day as a fraction of the cycle. */
-    double currentFraction();
+    /**
+     * The real value of the cycle expressed as a fraction [0.0,1.0)
+     * @return the fraction
+     */
+    double fraction();
 }

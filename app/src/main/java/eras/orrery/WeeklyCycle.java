@@ -1,7 +1,5 @@
 package eras.orrery;
 
-import eras.util.Functions;
-
 import java.util.List;
 
 /**
@@ -15,36 +13,51 @@ import java.util.List;
 public record WeeklyCycle(List<String> dayNames, int startDay, int day)
     implements Cycle
 {
-    public int length() {
-        return dayNames.size();
-    }
+    //-------------------------------------------------------------------------
+    // Cycle API
 
-    public int currentCycle() {
-        return CycleFunctions.currentCycle(day, length());
-    }
-
-    public int currentDay() {
-        return CycleFunctions.currentDay(day, length(), startDay);
-    }
-
-    public double realDay() {
-        return currentDay();
-    }
-
-    public double currentFraction() {
-        return realDay()/length();
-    }
-
+    @Override
     public Cycle setDay(int newDay) {
         return new WeeklyCycle(dayNames, startDay, newDay);
     }
 
+    @Override
+    public int cycleCount() {
+        return CycleFunctions.cycleCount(day, length());
+    }
+
+    @Override
+    public int dayOfCycle() {
+        return CycleFunctions.dayOfCycle(day, length(), startDay);
+    }
+
+    @Override
+    public double realValue() {
+        return dayOfCycle();
+    }
+
+    @Override
+    public double fraction() {
+        return realValue()/length();
+    }
+
+    //-------------------------------------------------------------------------
+    // WeeklyCycle API
+
     /**
-     * Gets the weekday name for the currentDay().
+     * Returns the length of the cycle in days.
+     * @return The length
+     */
+    public int length() {
+        return dayNames.size();
+    }
+
+    /**
+     * Gets the weekday name for the dayOfCycle().
      * @return The name
      */
     public String dayName() {
-        return dayNames.get(currentDay());
+        return dayNames.get(dayOfCycle());
     }
 
     /**
@@ -52,11 +65,11 @@ public record WeeklyCycle(List<String> dayNames, int startDay, int day)
      * @return The number
      */
     public int dayOfWeek() {
-        return currentDay() + 1;
+        return dayOfCycle() + 1;
     }
 
     /**
-     * Gets the week day name for the currentDay().
+     * Returns the dayName() string.
      * @return The day name string.
      */
     @Override
