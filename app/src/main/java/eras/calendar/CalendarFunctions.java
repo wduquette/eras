@@ -1,7 +1,7 @@
-package eras.basics;
+package eras.calendar;
 
-public class Basics {
-    private Basics() {} // Not instantiable
+public class CalendarFunctions {
+    private CalendarFunctions() {} // Not instantiable
 
     public static int lengthOfYearElementInDays(YearElement element, int year) {
         return switch (element) {
@@ -12,8 +12,8 @@ public class Basics {
         };
     }
 
-    public static int lengthOfYearInDays(YearlyCycle cycle, int year) {
-        return cycle.elements().stream()
+    public static int lengthOfYearInDays(Calendar calendar, int year) {
+        return calendar.elements().stream()
             .mapToInt(e -> lengthOfYearElementInDays(e, year))
             .sum();
     }

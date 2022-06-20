@@ -1,4 +1,4 @@
-package eras.basics;
+package eras.calendar;
 
 import static eras.util.Functions.mod;
 

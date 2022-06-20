@@ -1,4 +1,4 @@
-package eras.basics;
+package eras.calendar;
 
 /**
  * A year element is a portion of a year, usually a normal month.  In real
