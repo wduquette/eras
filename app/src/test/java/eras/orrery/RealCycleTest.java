@@ -12,7 +12,7 @@ public class RealCycleTest extends Ted {
         title("testBasics");
 
         require(cycle.length(), eq(28.25));
-        require(cycle.startDay(), eq(7.3));
+        require(cycle.startValue(), eq(7.3));
         require(cycle.day(), eq(0));
     }
 

@@ -47,10 +47,10 @@ class CycleFunctions {
      * Performs the realDay calculation for a real cycle.
      * @param day The day in days since the epoch day
      * @param length The cycle length in real days
-     * @param startDay The startDay relative to the epoch day
+     * @param startValue The real value on the epoch day
      */
-    public static double realValue(int day, double length, double startDay) {
-        return Functions.fmod((day + startDay), length);
+    public static double realValue(int day, double length, double startValue) {
+        return Functions.fmod((day + startValue), length);
     }
 
     /**

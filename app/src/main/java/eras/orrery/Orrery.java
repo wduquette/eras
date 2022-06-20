@@ -52,7 +52,9 @@ public class Orrery {
      * @param newDay The new day
      */
     public void setDay(int newDay) {
-        cycles.values().forEach(c -> c.setDay(newDay));
+        for (Map.Entry<String,Cycle> e : cycles.entrySet()) {
+            cycles.put(e.getKey(), e.getValue().setDay(newDay));
+        }
     }
 
     //-------------------------------------------------------------------------

@@ -9,4 +9,8 @@ public class Ted {
     public void println(String text) {
         System.out.println(text);
     }
+
+    public void printf(String fmt, Object... args) {
+        System.out.printf(fmt, args);
+    }
 }

@@ -6,15 +6,15 @@ package eras.orrery;
  * often not be zero.
  *
  * @param length   The length of the cycle in days
- * @param startDay The position within the cycle on day 0
+ * @param startValue The cycle's value on day()=0
  * @param day      The current day
  */
-public record RealCycle(double length, double startDay, int day)
+public record RealCycle(double length, double startValue, int day)
     implements Cycle
 {
     @Override
     public Cycle setDay(int newDay) {
-        return new RealCycle(length, startDay, newDay);
+        return new RealCycle(length, startValue, newDay);
     }
 
     @Override
@@ -24,7 +24,7 @@ public record RealCycle(double length, double startDay, int day)
 
     @Override
     public double realValue() {
-        return CycleFunctions.realValue(day, length, startDay);
+        return CycleFunctions.realValue(day, length, startValue);
     }
 
     @Override
