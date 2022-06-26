@@ -7,7 +7,7 @@ import static eras.checker.Checker.*;
 
 public class IntegerCycleTest extends Ted {
     // Day 0 is a Tuesday
-    IntegerCycle cycle = new IntegerCycle(7, 2);
+    IntegerCycle cycle = new IntegerCycle("Test", 7, 2);
 
     @Test public void testBasics() {
         title("testBasics");

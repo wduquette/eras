@@ -1,9 +1,6 @@
 package eras.orrery;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * An Orrery is an ordered collection of named cycles all tied to the same
@@ -14,7 +11,7 @@ public class Orrery {
     // Instance Variables
 
     // The collection of cycles
-    private final Map<String,Cycle> cycles;
+    private final List<Cycle<? extends CycleValue>> cycles;
 
     //-------------------------------------------------------------------------
     // Constructor
@@ -31,11 +28,11 @@ public class Orrery {
     // Public Methods
 
     /**
-     * Gets the names of the cycles.
-     * @return The names
+     * Gets a read-only list of the cycles.
+     * @return The cycles
      */
-    public List<String> getCycleNames() {
-        return new ArrayList<>(cycles.keySet());
+    public List<Cycle> getCycles() {
+        return Collections.unmodifiableList(cycles);
     }
 
     /**
@@ -43,8 +40,36 @@ public class Orrery {
      * @param name The name
      * @return The cycle, or null if not found
      */
-    public <V extends CycleValue> Cycle<V> getCycle(String name) {
-        return cycles.get(name);
+    public Optional<Cycle<?>> getCycle(String name) {
+        return cycles.stream()
+            .filter(c -> c.name().equals(name))
+            .findFirst();
+    }
+
+    public LunarCycle asLunar(String name) {
+        Cycle<?> cycle = getCycle(name)
+            .orElseThrow(() -> new IllegalStateException(
+                "Not found: \"" + name + "\""));
+
+        if (cycle instanceof LunarCycle) {
+            return (LunarCycle)cycle;
+        } else {
+            throw new IllegalStateException(
+                "Not a LunarCycle: \"" + name + "\"");
+        }
+    }
+
+    public WeeklyCycle asWeekly(String name) {
+        Cycle<?> cycle = getCycle(name)
+            .orElseThrow(() -> new IllegalStateException(
+                "Not found: \"" + name + "\""));
+
+        if (cycle instanceof WeeklyCycle) {
+            return (WeeklyCycle)cycle;
+        } else {
+            throw new IllegalStateException(
+                "Not a WeeklyCycle: \"" + name + "\"");
+        }
     }
 
 
@@ -52,10 +77,10 @@ public class Orrery {
     // Builder
 
     public static class Builder {
-        private final Map<String,Cycle> cycles = new LinkedHashMap<>();
+        private final List<Cycle<?>> cycles = new ArrayList<>();
 
-        public Builder add(String name, Cycle cycle) {
-            cycles.put(name, cycle);
+        public Builder add(Cycle cycle) {
+            cycles.add(cycle);
             return this;
         }
 

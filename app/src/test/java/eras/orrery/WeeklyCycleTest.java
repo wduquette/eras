@@ -10,7 +10,7 @@ import static eras.checker.Checker.*;
 public class WeeklyCycleTest extends Ted {
     // Day 0 is a Tuesday
     List<String> dayNames = List.of("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-    WeeklyCycle cycle = new WeeklyCycle(dayNames, 2);
+    WeeklyCycle cycle = new WeeklyCycle("Test", dayNames, 2);
 
     @Test public void testBasics() {
         title("testBasics");

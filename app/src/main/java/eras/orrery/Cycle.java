@@ -17,6 +17,12 @@ public interface Cycle<V extends CycleValue> {
     // Cycle Queries and Operations
 
     /**
+     * Gets the cycle's symbolic name.
+     * @return The name.
+     */
+    String name();
+
+    /**
      * Gets the value of the cycle for the given day.
      * @param day
      * @return The cycle value

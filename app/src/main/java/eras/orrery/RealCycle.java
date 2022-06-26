@@ -5,10 +5,11 @@ package eras.orrery;
  * length will seldom be an integer number of days, and the startDay will
  * often not be zero.
  *
+ * @param name       The cycle's name.
  * @param length   The length of the cycle in days
  * @param startValue The cycle's value on day()=0
  */
-public record RealCycle(double length, double startValue)
+public record RealCycle(String name, double length, double startValue)
     implements Cycle<RealCycleValue>
 {
     public RealCycleValue get(int day) {

@@ -10,8 +10,19 @@ public class OrreryTest extends Ted {
 
     // Day 0 is a Tuesday
     List<String> dayNames = List.of("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-    WeeklyCycle weekly = new WeeklyCycle(dayNames, 2);
-    LunarCycle monthly = new LunarCycle(27.322, 7.2);
+    WeeklyCycle weekly = new WeeklyCycle("Week", dayNames, 2);
+    LunarCycle monthly = new LunarCycle("Moon", 27.322, 7.2);
+    Orrery orrery = new Orrery.Builder()
+        .add(weekly)
+        .add(monthly)
+        .build();
+
+    @Test public void testRetrieval() {
+        WeeklyCycle wc = orrery.asWeekly("Week");
+        LunarCycle lc = orrery.asLunar("Moon");
+        WeeklyCycleValue wcv = orrery.asWeekly("Week").get(5);
+        LunarCycleValue lcv = orrery.asLunar("Moon").get(5);
+    }
 
     @Test public void testOutput() {
         title("testOutput");

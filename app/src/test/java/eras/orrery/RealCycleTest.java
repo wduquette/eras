@@ -6,7 +6,7 @@ import org.junit.Test;
 import static eras.checker.Checker.*;
 
 public class RealCycleTest extends Ted {
-    RealCycle cycle = new RealCycle(28.25, 7.3);
+    RealCycle cycle = new RealCycle("Test", 28.25, 7.3);
 
     @Test public void testBasics() {
         title("testBasics");
