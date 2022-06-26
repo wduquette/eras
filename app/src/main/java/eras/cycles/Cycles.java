@@ -21,11 +21,53 @@ class Cycles {
      * @param day days before/since the epoch day
      * @return The value
      */
-    public CycleValue compute(Cycle cycle, int day) {
+    public static CycleValue compute(Cycle cycle, int day) {
         return switch (cycle) {
             case Lunar def -> new LunarValue(def, day);
             case Weekly def -> new WeeklyValue(def, day);
         };
+    }
+
+    /**
+     * Given a cycle and day, computes the number of complete cycles since
+     * the epoch day.
+     * @param cycle The cycle definition
+     * @param day days before/since the epoch day
+     * @return The cycle count
+     */
+    public static int cycleCount(Cycle cycle, int day) {
+        return cycleCount(compute(cycle, day));
+    }
+
+    /**
+     * Given a cycle and day, computes the day-of-cycle.
+     * the epoch day.
+     * @param cycle The cycle definition
+     * @param day days before/since the epoch day
+     * @return The cycle count
+     */
+    public static int dayOfCycle(Cycle cycle, int day) {
+        return dayOfCycle(compute(cycle, day));
+    }
+
+    /**
+     * Given a cycle and day, computes the position.
+     * @param cycle The cycle definition
+     * @param day days before/since the epoch day
+     * @return The cycle count
+     */
+    public static double position(Cycle cycle, int day) {
+        return position(compute(cycle, day));
+    }
+
+    /**
+     * Given a cycle and day, computes the fraction-of-cycle.
+     * @param cycle The cycle definition
+     * @param day days before/since the epoch day
+     * @return The cycle count
+     */
+    public static double fraction(Cycle cycle, int day) {
+        return fraction(compute(cycle, day));
     }
 
     //-------------------------------------------------------------------------
@@ -37,7 +79,7 @@ class Cycles {
      * @param value the value
      * @return The cycle count
      */
-    public int cycleCount(CycleValue value) {
+    public static int cycleCount(CycleValue value) {
         return switch (value) {
             case LunarValue val ->
                 realCycleCount(val.day(), val.cycle().length());
@@ -51,7 +93,7 @@ class Cycles {
      * @param value The cycle value
      * @return The day-of-cycle
      */
-    public int dayOfCycle(CycleValue value) {
+    public static int dayOfCycle(CycleValue value) {
         return switch (value) {
             case LunarValue val ->
                 (int)Math.floor(position(val));
@@ -66,7 +108,7 @@ class Cycles {
      * @param value The cycle value
      * @return The position
      */
-    public double position(CycleValue value) {
+    public static double position(CycleValue value) {
         return switch (value) {
             case LunarValue val ->
                 position(val.day(), val.cycle().length(), val.cycle().startValue());
@@ -81,7 +123,7 @@ class Cycles {
      * @param value The cycle value
      * @return The position as a fraction.
      */
-    public double fraction(CycleValue value) {
+    public static double fraction(CycleValue value) {
         return switch (value) {
             case LunarValue val  -> position(val)/val.cycle().length();
             case WeeklyValue val -> position(val)/val.cycle().dayNames().size();
@@ -93,11 +135,23 @@ class Cycles {
 
     /**
      * Returns the shape of the moon.
+     * @param value The cycle value
      * @return The shape
      */
-    public LunarCycle.Shape shape(LunarValue value) {
-        double frac = fraction(value);
+    public static LunarShape lunarShape(CycleValue value) {
+        if (value instanceof LunarValue v) {
+            return lunarShape(fraction(value));
+        } else {
+            throw new IllegalArgumentException("Not a LunarValue");
+        }
+    }
 
+    /**
+     * Returns the shape of the moon given the fraction-of-cycle.
+     * @param fraction The fraction-of-cycle.
+     * @return The shape
+     */
+    public static LunarShape lunarShape(double fraction) {
         // 0.96 to 0.40    NEW
         //                 CRESCENT
         // 0.21 to 0.29    HALF
@@ -108,61 +162,81 @@ class Cycles {
         //                 CRESCENT
         // 0.96 to 0.40    NEW
 
-        if (frac <= 0.04) {
-            return LunarCycle.Shape.NEW;
-        } else if (frac < 0.21) {
-            return LunarCycle.Shape.CRESCENT;
-        } else if (frac <= 0.29) {
-            return LunarCycle.Shape.HALF;
-        } else if (frac < 0.46) {
-            return LunarCycle.Shape.GIBBOUS;
-        } else if (frac <= 0.54) {
-            return LunarCycle.Shape.FULL;
-        } else if (frac < 0.71) {
-            return LunarCycle.Shape.GIBBOUS;
-        } else if (frac <= 0.79) {
-            return LunarCycle.Shape.HALF;
-        } else if (frac < 0.96) {
-            return LunarCycle.Shape.CRESCENT;
+        if (fraction <= 0.04) {
+            return LunarShape.NEW;
+        } else if (fraction < 0.21) {
+            return LunarShape.CRESCENT;
+        } else if (fraction <= 0.29) {
+            return LunarShape.HALF;
+        } else if (fraction < 0.46) {
+            return LunarShape.GIBBOUS;
+        } else if (fraction <= 0.54) {
+            return LunarShape.FULL;
+        } else if (fraction < 0.71) {
+            return LunarShape.GIBBOUS;
+        } else if (fraction <= 0.79) {
+            return LunarShape.HALF;
+        } else if (fraction < 0.96) {
+            return LunarShape.CRESCENT;
         } else {
-            return LunarCycle.Shape.NEW;
+            return LunarShape.NEW;
         }
     }
 
     /**
      * Returns the phase of the moon.
+     * @param value The cycle value
+     * @return The shape
+     */
+    public static LunarPhase lunarPhase(CycleValue value) {
+        if (value instanceof LunarValue v) {
+            return lunarPhase(fraction(value));
+        } else {
+            throw new IllegalArgumentException("Not a LunarValue");
+        }
+    }
+
+    /**
+     * Returns the phase of the moon given the fraction-of-cycle.
+     * @param fraction The fraction of cycle.
      * @return The phase
      */
-    public LunarCycle.Phase phase(LunarValue value) {
-        double frac = fraction(value);
-
+    public static LunarPhase lunarPhase(double fraction) {
         // 0.96 to 0.04 - NEW
         //                WAXING
         // 0.46 to 0.54 - FULL
         //                WANING
 
-        if (frac <= 0.04) {
-            return LunarCycle.Phase.NEW;
-        } else if (frac < 0.46) {
-            return LunarCycle.Phase.WAXING;
-        } else if (frac <= 0.54) {
-            return LunarCycle.Phase.FULL;
-        } else if (frac < 0.96) {
-            return LunarCycle.Phase.WANING;
+        if (fraction <= 0.04) {
+            return LunarPhase.NEW;
+        } else if (fraction < 0.46) {
+            return LunarPhase.WAXING;
+        } else if (fraction <= 0.54) {
+            return LunarPhase.FULL;
+        } else if (fraction < 0.96) {
+            return LunarPhase.WANING;
         } else {
-            return LunarCycle.Phase.NEW;
+            return LunarPhase.NEW;
         }
     }
 
     //-------------------------------------------------------------------------
     // WeeklyValue functions
 
-    public String dayName(WeeklyValue value) {
-        return value.cycle().dayNames().get(dayOfCycle(value));
+    public static String dayName(CycleValue value) {
+        if (value instanceof WeeklyValue v) {
+            return v.cycle().dayNames().get(dayOfCycle(value));
+        } else {
+            throw new IllegalArgumentException("value is not a WeeklyValue");
+        }
     }
 
-    public int dayOfWeek(WeeklyValue value) {
-        return dayOfCycle(value) + 1;
+    public static int dayOfWeek(CycleValue value) {
+        if (value instanceof WeeklyValue v) {
+            return dayOfCycle(v) + 1;
+        } else {
+            throw new IllegalArgumentException("value is not a WeeklyValue");
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -213,40 +287,40 @@ class Cycles {
         return Functions.fmod((day + startValue), length);
     }
 
-//    /**
-//     * Dumps a table of values from day=start to day=end for a given integer
-//     * cycle: day, dayOfCycle, cycleCount, fraction.
-//     * @param cycle The cycle
-//     * @param start The start day
-//     * @param end The end day
-//     */
-//    public static void dumpIntegerCycle(Cycle cycle, int start, int end) {
-//        for (int i = -28; i <= 28; i++) {
-//            CycleValue value = cycle.get(i);
-//            System.out.printf("%03d: %d %02d %4.2f\n",
-//                value.day(),
-//                value.dayOfCycle(),
-//                value.cycleCount(),
-//                value.fraction());
-//        }
-//    }
-//
-//    /**
-//     * Dumps a table of values from day=start to day=end for a given real
-//     * cycle: day, realValue, fraction, cycleCount, dayOfCycle.
-//     * @param cycle The cycle
-//     * @param start The start day
-//     * @param end The end day
-//     */
-//    public static void dumpRealCycle(Cycle cycle, int start, int end) {
-//        for (int i = start; i <= end; i++) {
-//            CycleValue value = cycle.get(i);
-//            System.out.printf("%03d: %6.2f %4.2f %02d %02d\n",
-//                value.day(),
-//                value.realValue(),
-//                value.fraction(),
-//                value.cycleCount(),
-//                value.dayOfCycle());
-//        }
-//    }
+    /**
+     * Dumps a table of values from day=start to day=end for a given integer
+     * cycle: day, dayOfCycle, cycleCount, fraction.
+     * @param cycle The cycle
+     * @param start The start day
+     * @param end The end day
+     */
+    public static void dumpIntegerCycle(Cycle cycle, int start, int end) {
+        for (int i = -28; i <= 28; i++) {
+            CycleValue value = compute(cycle, i);
+            System.out.printf("%03d: %d %02d %4.2f\n",
+                i,
+                dayOfCycle(value),
+                cycleCount(value),
+                fraction(value));
+        }
+    }
+
+    /**
+     * Dumps a table of values from day=start to day=end for a given real
+     * cycle: day, realValue, fraction, cycleCount, dayOfCycle.
+     * @param cycle The cycle
+     * @param start The start day
+     * @param end The end day
+     */
+    public static void dumpRealCycle(Cycle cycle, int start, int end) {
+        for (int i = start; i <= end; i++) {
+            CycleValue value = compute(cycle, i);
+            System.out.printf("%03d: %6.2f %4.2f %02d %02d\n",
+                i,
+                position(value),
+                fraction(value),
+                cycleCount(value),
+                dayOfCycle(value));
+        }
+    }
 }
