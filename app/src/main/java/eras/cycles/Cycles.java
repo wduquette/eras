@@ -223,12 +223,20 @@ class Cycles {
     //-------------------------------------------------------------------------
     // WeeklyValue functions
 
+    public static String dayName(Cycle cycle, int day) {
+        return dayName(compute(cycle, day));
+    }
+
     public static String dayName(CycleValue value) {
         if (value instanceof WeeklyValue v) {
             return v.cycle().dayNames().get(dayOfCycle(value));
         } else {
             throw new IllegalArgumentException("value is not a WeeklyValue");
         }
+    }
+
+    public static int dayOfWeek(Cycle cycle, int day) {
+        return dayOfWeek(compute(cycle, day));
     }
 
     public static int dayOfWeek(CycleValue value) {

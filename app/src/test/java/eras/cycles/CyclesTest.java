@@ -126,10 +126,16 @@ public class CyclesTest extends Ted {
     }
 
     @Test public void testDayName() {
-        require(dayOfWeek(compute(weeklyCycle, 0)), eq(2));
+        for (int d = -30; d <= 30; d++) {
+            require(dayName(weeklyCycle, d),
+                eq(dayNames.get(dayOfCycle(weeklyCycle, d))));
+        }
     }
 
     @Test public void testDayOfWeek() {
-
+        for (int d = -30; d <= 30; d++) {
+            require(dayOfWeek(weeklyCycle, d),
+                eq(dayOfCycle(weeklyCycle, d) + 1));
+        }
     }
 }
