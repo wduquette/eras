@@ -25,12 +25,5 @@ public sealed interface Cycle {
      * @param startDay The starting day
      */
     record Weekly(String name, List<String> dayNames, int startDay)
-        implements Cycle
-    {
-        /**
-         * Gets the length of the cycle in days.
-         * @return The length.
-         */
-        public int length() { return dayNames.size(); }
-    }
+        implements Cycle { }
 }

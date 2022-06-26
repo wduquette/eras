@@ -42,7 +42,7 @@ class Cycles {
             case LunarValue val ->
                 realCycleCount(val.day(), val.cycle().length());
             case WeeklyValue val ->
-                intCycleCount(val.day(), val.cycle().length());
+                intCycleCount(val.day(), val.cycle().dayNames().size());
         };
     }
 
@@ -56,7 +56,7 @@ class Cycles {
             case LunarValue val ->
                 (int)Math.floor(position(val));
             case WeeklyValue val ->
-                dayOfCycle(val.day(), val.cycle().length(), val.cycle().startDay());
+                dayOfCycle(val.day(), val.cycle().dayNames().size(), val.cycle().startDay());
         };
     }
 
@@ -84,7 +84,7 @@ class Cycles {
     public double fraction(CycleValue value) {
         return switch (value) {
             case LunarValue val  -> position(val)/val.cycle().length();
-            case WeeklyValue val -> position(val)/val.cycle().length();
+            case WeeklyValue val -> position(val)/val.cycle().dayNames().size();
         };
     }
 
