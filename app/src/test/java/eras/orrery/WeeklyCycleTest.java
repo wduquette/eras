@@ -10,103 +10,70 @@ import static eras.checker.Checker.*;
 public class WeeklyCycleTest extends Ted {
     // Day 0 is a Tuesday
     List<String> dayNames = List.of("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-    WeeklyCycle cycle = new WeeklyCycle(dayNames, 2, 0);
+    WeeklyCycle cycle = new WeeklyCycle("Test", dayNames, 2);
 
     @Test public void testBasics() {
         title("testBasics");
 
         require(cycle.length(), eq(7));
         require(cycle.startDay(), eq(2));
-        require(cycle.day(), eq(0));
 
     }
 
-    @Test public void testToDay() {
-        title("testToDay");
+    @Test public void testCycleCount() {
+        title("testCycleCount");
 
-        Cycle cycle2 = cycle.setDay(3);
-        require(cycle2.day(), eq(3));
+        require(cycle.get(0).cycleCount(), eq(0));
+        require(cycle.get(6).cycleCount(), eq(0));
+        require(cycle.get(7).cycleCount(), eq(1));
+        require(cycle.get(13).cycleCount(), eq(1));
+        require(cycle.get(14).cycleCount(), eq(2));
+
+        require(cycle.get(-1).cycleCount(), eq(-1));
+        require(cycle.get(-7).cycleCount(), eq(-1));
+        require(cycle.get(-8).cycleCount(), eq(-2));
     }
 
-    @Test public void testCurrentCycle() {
-        title("testCurrentCycle");
-        Cycle that = cycle;
+    @Test public void testDayOfCycle() {
+        title("testDayOfCycle");
 
-        require(that.cycleCount(), eq(0));
-        that = that.setDay(6);
-        require(that.cycleCount(), eq(0));
-        that = that.setDay(7);
-        require(that.cycleCount(), eq(1));
-        that = that.setDay(13);
-        require(that.cycleCount(), eq(1));
-        that = that.setDay(14);
-        require(that.cycleCount(), eq(2));
+        require(cycle.get(0).dayOfCycle(), eq(2));
+        require(cycle.get(2).dayOfCycle(), eq(4));
+        require(cycle.get(4).dayOfCycle(), eq(6));
+        require(cycle.get(5).dayOfCycle(), eq(0));
 
-        that = that.setDay(-1);
-        require(that.cycleCount(), eq(-1));
-        that = that.setDay(-7);
-        require(that.cycleCount(), eq(-1));
-        that = that.setDay(-8);
-        require(that.cycleCount(), eq(-2));
+        require(cycle.get(-1).dayOfCycle(), eq(1));
+        require(cycle.get(-2).dayOfCycle(), eq(0));
+        require(cycle.get(-3).dayOfCycle(), eq(6));
     }
 
-    @Test public void testCurrentDay() {
-        title("testCurrentDay");
-        Cycle that = cycle;
+    @Test public void testFraction() {
+        title("testFraction");
 
-        require(that.dayOfCycle(), eq(2));
-        that = that.setDay(2);
-        require(that.dayOfCycle(), eq(4));
-        that = that.setDay(4);
-        require(that.dayOfCycle(), eq(6));
-        that = that.setDay(5);
-        require(that.dayOfCycle(), eq(0));
+        require(cycle.get(0).fraction(), hasString("%.2f", "0.29"));
+        require(cycle.get(2).fraction(), hasString("%.2f", "0.57"));
+        require(cycle.get(4).fraction(), hasString("%.2f", "0.86"));
+        require(cycle.get(5).fraction(), hasString("%.2f", "0.00"));
 
-        that = that.setDay(-1);
-        require(that.dayOfCycle(), eq(1));
-        that = that.setDay(-2);
-        require(that.dayOfCycle(), eq(0));
-        that = that.setDay(-3);
-        require(that.dayOfCycle(), eq(6));
+        require(cycle.get(-1).fraction(), hasString("%.2f", "0.14"));
+        require(cycle.get(-2).fraction(), hasString("%.2f", "0.00"));
+        require(cycle.get(-3).fraction(), hasString("%.2f", "0.86"));
     }
 
-    @Test public void testCurrentFraction() {
-        title("testCurrentDay");
-        Cycle that = cycle;
-
-        require(that.fraction(), hasString("%.2f", "0.29"));
-        that = that.setDay(2);
-        require(that.fraction(), hasString("%.2f", "0.57"));
-        that = that.setDay(4);
-        require(that.fraction(), hasString("%.2f", "0.86"));
-        that = that.setDay(5);
-        require(that.fraction(), hasString("%.2f", "0.00"));
-
-        that = that.setDay(-1);
-        require(that.fraction(), hasString("%.2f", "0.14"));
-        that = that.setDay(-2);
-        require(that.fraction(), hasString("%.2f", "0.00"));
-        that = that.setDay(-3);
-        require(that.fraction(), hasString("%.2f", "0.86"));
-    }
-
-    @Test public void testRealDay() {
-        title("testRealDay");
-        Cycle that = cycle;
+    @Test public void testRealValue() {
+        title("testRealValue");
 
         for (int i = -14; i <= 14; i++) {
-            that = that.setDay(i);
-            require(that.realValue(), eq((double)that.dayOfCycle()));
+            CycleValue cv = cycle.get(i);
+            require(cv.realValue(), eq((double)cv.dayOfCycle()));
         }
     }
 
     @Test public void testToString() {
         title("testToString");
-        Cycle that = cycle;
-
         for (int i = -14; i <= 14; i++) {
-            that = that.setDay(i);
-            require(that.toString(), eq(dayNames.get(that.dayOfCycle())));
+            CycleValue cv = cycle.get(i);
+            require(cv.toString(), eq(dayNames.get(cv.dayOfCycle())));
         }
     }
 }

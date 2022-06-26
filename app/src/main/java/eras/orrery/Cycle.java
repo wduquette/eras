@@ -12,48 +12,20 @@ package eras.orrery;
  * <li>The length of the cycle in days.</li>
  * </ul>
  */
-public interface Cycle {
+public interface Cycle<V extends CycleValue> {
     //-------------------------------------------------------------------------
     // Cycle Queries and Operations
 
     /**
-     * The number of days since the epoch.  May be positive or negative.
-     * @return The number of days
+     * Gets the cycle's symbolic name.
+     * @return The name.
      */
-    int day();
+    String name();
 
     /**
-     * Returns the cycle updated to the new day.
-     * @param newDay The new day
-     * @return The updated cycle.
+     * Gets the value of the cycle for the given day.
+     * @param day
+     * @return The cycle value
      */
-    Cycle setDay(int newDay);
-
-    /**
-     * For the current day(), the number of cycles completed since the epoch.
-     * @return The number
-     */
-    int cycleCount();
-
-    /**
-     * The current day in the cycle.  For integer cycles, this will be in
-     * the range [0,length-1]; for real cycles with non-integer length it
-     * will be less meaningful.
-     * @return the day.
-     */
-    int dayOfCycle();
-
-    /**
-     * The real value of the cycle given the day().  For integer cycles
-     * this will be the same as the dayInCycle(); for natural cycles of
-     * non-integer length it will be something else.
-      * @return the real value.
-     */
-    double realValue();
-
-    /**
-     * The real value of the cycle expressed as a fraction [0.0,1.0)
-     * @return the fraction
-     */
-    double fraction();
+    V get(int day);
 }
