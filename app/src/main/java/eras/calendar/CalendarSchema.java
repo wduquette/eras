@@ -19,4 +19,21 @@ public record CalendarSchema(List<YearElement> elements) {
     public static CalendarSchema of(YearElement... args) {
         return new CalendarSchema(List.of(args));
     }
+
+    /**
+     * Gets the number of elements in the year.
+     * @return The size
+     */
+    public int size() {
+        return elements().size();
+    }
+
+    /**
+     * Gets the year element at the index, 1 to N
+     * @param index The index
+     * @return The element
+     */
+    public YearElement element(int index) {
+        return elements.get(index - 1);
+    }
 }

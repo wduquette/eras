@@ -1,6 +1,8 @@
 package eras.cycles;
 
+import eras.calendar.BareDate;
 import eras.calendar.CalendarSchema;
+import eras.calendar.Date;
 
 import java.util.List;
 
@@ -27,4 +29,18 @@ public sealed interface Cycle {
      */
     record Weekly(String name, List<String> dayNames, int startDay)
         implements Cycle { }
+
+    /**
+     * A cycle based on a calendar scheme.
+     * @param name The cycle's name
+     * @param schema The schema
+     * @param startDate The calendar date of the epoch day
+     * @param newYearsDay The cycle's new year's day.
+     */
+    record Yearly(
+        String name,
+        CalendarSchema schema,
+        Date startDate,
+        BareDate newYearsDay)
+    implements Cycle { }
 }

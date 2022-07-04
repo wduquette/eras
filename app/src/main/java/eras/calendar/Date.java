@@ -21,4 +21,13 @@ public record Date(
     public static Date of(int year, int element, int dayOfElement) {
         return new Date(year, element, dayOfElement);
     }
+
+    /**
+     * Creates a Date given a year and a BareDate.
+     * @param bareDate The bare date
+     * @return The Date
+     */
+    public static Date of(int year, BareDate bareDate) {
+        return of(year, bareDate.element(), bareDate.dayOfElement());
+    }
 }

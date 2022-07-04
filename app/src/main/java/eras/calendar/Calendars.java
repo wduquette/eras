@@ -7,6 +7,43 @@ public class Calendars {
     private Calendars() {} // Not instantiable
 
     /**
+     * Converts a Date in the given CalendarSchema to a JulianDay in the
+     * same schema
+     * @param schema The calendar schema
+     * @param date The input date
+     * @return The Julian Day
+     */
+    public static JulianDay date2julian(CalendarSchema schema, Date date) {
+        int year = date.year();
+        int dayOfYear = date.dayOfElement();
+        for (int i = 1; i < schema.size(); i++) {
+            dayOfYear += lengthOfYearElementInDays(schema.element(i), year);
+        }
+
+        return JulianDay.of(year, dayOfYear);
+    }
+
+    /**
+     * Converts a JulianDay in the given CalendarSchema to a Date in the
+     * same schema
+     * @param schema The calendar schema
+     * @param julian The input day
+     * @return The date
+     */
+    public static Date julian2date(CalendarSchema schema, JulianDay julian) {
+        int year = julian.year();
+        int element = 1;
+        int daysLeft = julian.dayOfYear();
+
+        while (daysLeft > lengthOfYearElementInDays(schema.element(element), year)) {
+            daysLeft -= lengthOfYearElementInDays(schema.element(element), year);
+            element += 1;
+        }
+
+        return Date.of(year, element, daysLeft);
+    }
+
+    /**
      * Computes the length of a year element in days, given the current year
      * and the element's associated LeapRule.
      * @param element The element
