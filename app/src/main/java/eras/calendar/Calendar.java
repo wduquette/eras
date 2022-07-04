@@ -1,6 +1,8 @@
 package eras.calendar;
 
 
+import eras.util.Assert;
+
 import static eras.util.Functions.mod;
 
 public class Calendar {
@@ -37,8 +39,10 @@ public class Calendar {
 
     /**
      * Computes the number of leap days in the year, given the rule.
+     * The first year of era XY is 1; the previous year is 1 BXY.  For
+     * purposes of this function, the years BXY are coded 0, -1, -2, etc.
      * @param rule The rule
-     * @param year The number of the year
+     * @param year The number of the year, not zero.
      * @return The number of leap days.
      */
     public static int numberOfLeapDays(LeapRule rule, int year) {
@@ -52,7 +56,6 @@ public class Calendar {
     // Computes the number of leap days in a year according to the
     // Gregorian rule.
     private static int leapDaysGregorian(int year) {
-        // TODO: Doesn't handle years < 1!
         if (mod(year, 400) == 0) {
             return 1;
         } else if (mod(year, 100) == 0) {
@@ -67,7 +70,6 @@ public class Calendar {
     // Computes the number of leap days according to the rule 1 leap day
     // in years that are evenly divisible by N, and 0 otherwise.
     private static int leapDayEveryNYears(int everyN, int year) {
-        // TODO: Doesn't handle years < 1!
         if (mod(year, everyN) == 0) {
             return 1;
         } else {

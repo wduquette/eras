@@ -10,4 +10,13 @@ import java.util.List;
  *
  * @param elements The elements.
  */
-public record CalendarSchema(List<YearElement> elements) { }
+public record CalendarSchema(List<YearElement> elements) {
+    /**
+     * Convenience method for creating schemas.
+     * @param args The elements
+     * @return The schema.
+     */
+    public static CalendarSchema of(YearElement... args) {
+        return new CalendarSchema(List.of(args));
+    }
+}
