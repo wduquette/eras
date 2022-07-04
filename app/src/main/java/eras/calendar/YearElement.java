@@ -26,49 +26,85 @@ public sealed interface YearElement {
      *
      * @param name The name of the month
      * @param days The length of the month in days.
+     * @param leapRule The rule for adding leap days to this month.
      */
     record Month(
         String name,
         int days,
-        LeapDays leapDays
+        LeapRule leapRule
     ) implements YearElement {
+        /**
+         * Creates a month that's a constant number of days.
+         * @param name The month's name
+         * @param days The month's length in days.
+         * @return The month
+         */
         public static Month of(String name, int days) {
-            return new Month(name, days, LeapDays.NONE);
+            return new Month(name, days, LeapRule.NONE);
         }
 
-        public static Month of(String name, int days, LeapDays leapDays) {
-            return new Month(name, days, leapDays);
-        }
-
-        public static Month of(String name, LeapDays leapDays) {
-            return new Month(name, 0, leapDays);
+        /**
+         * Creates a month that includes an explicit leap rule.
+         * @param name The month's name
+         * @param days The month's normal length in days.
+         * @param leapRule The rule for adding leap days to this month.
+         * @return The month
+         */
+        public static Month of(String name, int days, LeapRule leapRule) {
+            return new Month(name, days, leapRule);
         }
     }
 
     /**
-     * A period of zero or more epagomenal days
+     * A period of zero or more epagomenal days (days outside of any month).
      *
-     * @param name     The name
+     * @param name     The name of the epagomenal
      * @param days     The number of normal days
-     * @param leapDays The rule for the number of leap days
-     * @param nonWeek  Whether the epagomenal days are days of the week
+     * @param leapRule The rule for the number of leap days
+     * @param nonWeek  Whether the epagomenal days are days of the week or not
      */
     record Epagomenal(
         String name,
         int days,
-        LeapDays leapDays,
+        LeapRule leapRule,
         boolean nonWeek
     ) implements YearElement {
+        /**
+         * Returns an epagomenal period of the given length.
+         * @param name The name of the period
+         * @param days The length in days
+         * @return The epagomenal
+         */
         public static Epagomenal of(String name, int days) {
-            return new Epagomenal(name, days, LeapDays.NONE, false);
+            return new Epagomenal(name, days, LeapRule.NONE, false);
         }
 
-        public static Epagomenal of(String name, int days, LeapDays leapDays) {
-            return new Epagomenal(name, days, leapDays, false);
+        /**
+         * Returns an epagomenal period of the given length, plus an explicit
+         * leap rule
+         * @param name The name of the period
+         * @param days The normal length in days
+         * @param leapRule The rule for adding leap days
+         * @return The epagomenal
+         */
+        public static Epagomenal of(String name, int days, LeapRule leapRule) {
+            return new Epagomenal(name, days, leapRule, false);
         }
 
-        public static Epagomenal of(String name, int days, LeapDays leapDays, boolean nonWeek) {
-            return new Epagomenal(name, days, leapDays, nonWeek);
+        /**
+         * Returns a non-week-day epagomenal period of the given length, plus
+         * an explicit leap rule
+         * @param name The name of the period
+         * @param days The normal length in days
+         * @param leapRule The rule for adding leap days
+         * @return The epagomenal
+         */
+        public static Epagomenal nonWeekOf(
+            String name,
+            int days,
+            LeapRule leapRule)
+        {
+            return new Epagomenal(name, days, leapRule, false);
         }
     }
 }

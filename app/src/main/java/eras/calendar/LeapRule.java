@@ -1,6 +1,4 @@
-package eras.cycles;
-
-import static eras.util.Functions.mod;
+package eras.calendar;
 
 /**
  * The interface LeapDays defines how leap days are computed for a year element.
