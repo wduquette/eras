@@ -1,6 +1,5 @@
 package eras.cycles;
 
-import eras.calendar.YearElement;
 
 import static eras.util.Functions.mod;
 
@@ -16,10 +15,10 @@ public class Calendar {
      */
     public static int lengthOfYearElementInDays(YearElement element, int year) {
         return switch (element) {
-            case eras.calendar.YearElement.Month m ->
-                m.days() + m.leapDays().forYear(year);
+            case YearElement.Month m ->
+                m.days() + numberOfLeapDays(m.leapRule(), year);
             case YearElement.Epagomenal m ->
-                m.days() + m.leapDays().forYear(year);
+                m.days() + numberOfLeapDays(m.leapRule(), year);
         };
     }
 
