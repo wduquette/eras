@@ -1,12 +1,10 @@
 package eras.calendar;
 
 
-import eras.util.Assert;
-
 import static eras.util.Functions.mod;
 
-public class Calendar {
-    private Calendar() {} // Not instantiable
+public class Calendars {
+    private Calendars() {} // Not instantiable
 
     /**
      * Computes the length of a year element in days, given the current year

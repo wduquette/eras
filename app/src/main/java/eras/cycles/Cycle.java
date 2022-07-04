@@ -1,5 +1,7 @@
 package eras.cycles;
 
+import eras.calendar.CalendarSchema;
+
 import java.util.List;
 
 public sealed interface Cycle {
