@@ -8,7 +8,7 @@
  * <ul>
  * <li>A "Cycle" is a record value containing the parameters that define a
  * specific cycle with respect to an epoch day: a weekly cycle, a lunar cycle,
- * etc.</li>
+ * etc, a yearly calendar.</li>
  * <li>A "Cycle Value" represents the value of the cycle on a specific day
  * before or since the epoch day.
  * It will reference the Cycle definition, the
@@ -18,7 +18,7 @@
  *
  * For simple natural cycles, the cycle value will usually contain the cycle
  * reference and the day.
- * For calendars, where the length may vary according to a function, the
+ * For calendars, where the period may vary according to a function, the
  * cycle value may be more complicated.
  */
 package eras.cycles;

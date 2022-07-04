@@ -4,16 +4,15 @@ import java.util.List;
 
 public sealed interface Cycle {
     /**
-     * A cycle describing a moon's orbit around the planet.  The length is the
-     * length of the orbit in days, and will usually not be an integer number
-     * of days.  The startValue is the position of the moon in the cycle (in days)
-     * as of the epoch day.
+     * A cycle describing a moon's orbit around the planet.  The period is the
+     * length of the orbit in decimal days. The startPhase is the position of
+     * the moon in the cycle decimal days as of the epoch day.
      *
      * @param name       The cycle's name.
-     * @param length     The length of the cycle in days
-     * @param startValue The cycle's value on the epoch day.
+     * @param period     The period of the cycle in days
+     * @param startPhase The cycle's value on the epoch day.
      */
-    record Lunar(String name, double length, double startValue)
+    record Lunar(String name, double period, double startPhase)
         implements Cycle { }
 
     /**

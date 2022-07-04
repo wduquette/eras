@@ -2,7 +2,6 @@ package eras.cycles;
 
 import eras.cycles.CycleValue.*;
 import eras.cycles.Cycle.*;
-import eras.orrery.LunarCycle;
 import eras.util.Functions;
 
 /**
@@ -82,7 +81,7 @@ class Cycles {
     public static int cycleCount(CycleValue value) {
         return switch (value) {
             case LunarValue val ->
-                realCycleCount(val.day(), val.cycle().length());
+                realCycleCount(val.day(), val.cycle().period());
             case WeeklyValue val ->
                 intCycleCount(val.day(), val.cycle().dayNames().size());
         };
@@ -111,7 +110,7 @@ class Cycles {
     public static double position(CycleValue value) {
         return switch (value) {
             case LunarValue val ->
-                position(val.day(), val.cycle().length(), val.cycle().startValue());
+                position(val.day(), val.cycle().period(), val.cycle().startPhase());
             case WeeklyValue val ->
                 dayOfCycle(val);
         };
@@ -119,13 +118,13 @@ class Cycles {
 
     /**
      * Given a cycle value, computes the position as a fraction of the cycle
-     * length, e.g, a value in the range [0.0,1.0).
+     * period, e.g, a value in the range [0.0,1.0).
      * @param value The cycle value
      * @return The position as a fraction.
      */
     public static double fraction(CycleValue value) {
         return switch (value) {
-            case LunarValue val  -> position(val)/val.cycle().length();
+            case LunarValue val  -> position(val)/val.cycle().period();
             case WeeklyValue val -> position(val)/val.cycle().dayNames().size();
         };
     }
@@ -139,7 +138,7 @@ class Cycles {
      * @return The shape
      */
     public static LunarShape lunarShape(CycleValue value) {
-        if (value instanceof LunarValue v) {
+        if (value instanceof LunarValue) {
             return lunarShape(fraction(value));
         } else {
             throw new IllegalArgumentException("Not a LunarValue");
@@ -254,7 +253,7 @@ class Cycles {
      * Computes the number of cycles since the epoch day for an integer cycle.
      * The input day may be positive or negative.
      * @param day The day in days since the epoch day
-     * @param length The cycle length in integer days
+     * @param length The cycle period in integer days
      */
     public static int intCycleCount(int day, int length) {
         if (day >= 0) {
@@ -269,7 +268,7 @@ class Cycles {
      * Computes the day-of-cycle for an integer cycle, taking its value on the
      * epoch day into account.
      * @param day The day in days since the epoch day
-     * @param length The cycle length in integer days
+     * @param length The cycle period in integer days
      * @param startDay The day-of-cycle on the epoch day.
      */
     public static int dayOfCycle(int day, int length, int startDay) {
@@ -279,7 +278,7 @@ class Cycles {
     /**
      * Performs the currentCycle calculation for a real cycle.
      * @param day The day in days since the epoch day
-     * @param length The cycle length in real days
+     * @param length The cycle period in real days
      */
     public static int realCycleCount(int day, double length) {
         return (int)Math.floor(day / length);
@@ -288,7 +287,7 @@ class Cycles {
     /**
      * Performs the realDay calculation for a real cycle.
      * @param day The day in days since the epoch day
-     * @param length The cycle length in real days
+     * @param length The cycle period in real days
      * @param startValue The real value on the epoch day
      */
     public static double position(int day, double length, double startValue) {
